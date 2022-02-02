@@ -55,12 +55,12 @@ After adding the dev dependency, create a `tsconfig.json` file under the root of
 }
 ```
 
-This file above configures the behavior of the compiler.
+The file above configures the behavior of the compiler.
 
 Now let's understand some properties:
 
 - [`es2021`](https://262.ecma-international.org/12.0/) features will be used when generating the distributable version
-- use the [`commonjs`](https://nodejs.org/docs/latest/api/modules.html) module system.
+- use the [`commonjs`](https://nodejs.org/docs/latest/api/modules.html) module system
 - generate JavaScript files inside `/build` folder
 - include all files inside `/src` folder
 - exclude all files inside `/node_modules` folder
@@ -198,4 +198,79 @@ yarn lint
 
 the result should be similar to this:
 
-<img align="left" alt="eslint output" style="max-width: 680px" src="assets/lint-output.png" />
+<img align="center" alt="eslint output" style="max-width: 680px" src="assets/lint-output.png" />
+
+## Prettier
+
+The prettier is a text formatter for javascript and typescript files.
+
+To install prettier in your project run the following command:
+
+```bash
+yarn add prettier -D
+```
+
+To enable prettier rules into ESLint rules install the following dependency:
+
+```bash
+yarn add eslint-plugin-prettier -D
+```
+
+Then, in `.eslintrc.json` file, put these lines:
+
+```diff
+{
+  "plugins": [
+    "@typescript-eslint",
++    "prettier"
+  ],
+  "rules": {
++    "prettier/prettier": "error"
+  }
+}
+```
+
+> For more details see the official repository: [eslint-plugin-prettier](https://github.com/prettier/eslint-plugin-prettier).
+
+To prevent the prettier and eslint rules from conflicting, it's necessary to install the following plugin:
+
+```bash
+yarn add eslint-config-prettier -D
+```
+
+Then, in `.eslintrc.json` file, put these lines:
+
+```diff
+{
+  "extends": [
+    "airbnb-base",
++   "plugin:prettier/recommended"
+  ]
+}
+```
+
+> For more details see the official repository: [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier).
+
+If you are using [VSCode](https://code.visualstudio.com/), you will also need to install the [esbenp.prettier-vscode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) plugin.
+
+The next step is create a `.prettierrc.json` file inside root folder:
+
+```json
+{
+  "semi": false,
+  "trailingComma": "all",
+  "singleQuote": true,
+  "printWidth": 85,
+  "tabWidth": 2
+}
+```
+
+> Change the settings according to your need. See the [official documentation](https://prettier.io/docs/en/options.html) for more details.
+
+If you are using VSCode, you need to disable the following setting into [`settings.json`](https://code.visualstudio.com/docs/getstarted/settings) file to avoid conflicts with ESLint rules:
+
+```diff
+{ 
++ "typescript.validate.enable": false
+}
+```
