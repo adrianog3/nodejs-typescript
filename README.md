@@ -302,6 +302,84 @@ If you are using [VSCode](https://code.visualstudio.com/), you need to disable t
 }
 ```
 
+## Jest
+
+Jest is a popular JavaScript Testing Framework. To install it, just run the command below:
+
+```bash
+yarn add jest @types/jest -D
+```
+
+After installing, perform the configuration by running the command below:
+
+```bash
+yarn jest --init
+```
+
+The next lines contain a set of questions and answers that reproduce the configuration applied in this repository.
+
+<hr>
+
+It seems that you already have a jest configuration, do you want to override it?
+> yes
+
+Would you like to use Typescript for the configuration file?
+> yes
+
+Choose the test environment that will be used for testing
+> node
+
+Do you want Jest to add coverage reports?
+> yes
+
+Which provider should be used to instrument code for coverage?
+> v8
+
+Automatically clear mock calls, instances and results before every test?
+> yes
+
+<hr>
+
+After performing the installation, change the `jest.config.ts` file as shown below:
+
+```diff
+{
+-  // testMatch: [
+-  //   "**/__tests__/**/*.[jt]s?(x)",
+-  //   "**/?(*.)+(spec|test).[tj]s?(x)"
+-  // ],
++  testMatch: ['**/**/*.spec.ts'],
+}
+```
+
+> This setting tells jest that all files ending with `.spec.ts` will be considered test files.
+
+The next step is to configure eslint to understand the jest global definitions. To do this, install the following plugin:
+
+```bash
+yarn add eslint-plugin-jest -D
+```
+
+And change `eslintrc.json` file:
+
+```diff
+{
+  "env": {
+    "es2021": true,
+    "node": true,
++   "jest/globals": true
+  },
+
+  "plugins": [
+    "@typescript-eslint",
+    "prettier", 
++   "jest"
+  ],
+}
+```
+
+Now, if you execute `yarn test`, the jest will run all tests. :tada:
+
 ## :dog: Husky & lint-staged
 
 Husky + lint-staged is a perfect match. [Husky](https://github.com/typicode/husky) uses the power of [git hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) to trigger custom commands and [lint-staged](https://github.com/okonet/lint-staged) allows us to run these commands only in files that are in the git stage area.
@@ -331,3 +409,16 @@ In this case we will make a small adjustment in the `lint-staged` script.
 - The `--max-warnings=0` flag defines the maximum number of warnings allowed by eslint. If you exceed the limit, an error will be thrown. 
 
 From now, when performing a commit, any typescript file will be analyzed by eslint. This is awesome :hearts:
+
+If you also want to run Jest after the lint stage, change the package.json file as shown below:
+
+```diff
+{
+  "lint-staged": {
+-    "*.ts": "eslint --cache --fix --max-warnings=0"
++    "*.ts": [
++      "eslint --cache --fix --max-warnings=0",
++      "jest --bail --findRelatedTests"
++    ]
++  }
+}
