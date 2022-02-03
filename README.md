@@ -1,4 +1,24 @@
-# NodeJS Setup - TypeScript + ESLint + Prettier
+# NodeJS Setup
+
+## :rocket: Technologies
+
+- [Node.js](https://nodejs.org/en/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [ESLint](https://eslint.org/)
+- [Prettier](https://prettier.io/)
+- [Jest](https://jestjs.io/pt-BR/)
+- [Husky](https://github.com/typicode/husky)
+- [lint-staged](https://github.com/okonet/lint-staged)
+- [commitlint](https://github.com/conventional-changelog/commitlint)
+- [commitizen](https://github.com/commitizen/cz-cli)
+
+## :page_with_curl: Table of Contents
+
+1. [How to reproduce this template](#how-to-reproduce-this-template)
+1. [Initial configuration](#initial-configuration)
+1. [TypeScript](#typeScript)
+1. [Eslint](#eslint)
+1. [Prettier](#prettier)
 
 ## How to reproduce this template
 
@@ -30,7 +50,7 @@ Add property `private` as `true` in `package.json` file. This is a way to preven
 
 ## TypeScript
 
-[TypeScript](https://www.typescriptlang.org/) is a highly typed programming language maintained by [Microsoft](https://www.microsoft.com/). All TypeScript code is converted to JavaScript, which consequently can be runs anywhere JavaScript runs: in a [browser](https://en.wikipedia.org/wiki/Web_browser), in [Node.js](https://nodejs.org/en/) or [Deno](https://deno.land/).
+[TypeScript](https://www.typescriptlang.org/) is a highly typed programming language maintained by [Microsoft](https://www.microsoft.com/). All TypeScript code is converted to JavaScript, which consequently can be runs anywhere JavaScript runs.
 
 ```bash
 yarn add typescript -D
@@ -64,7 +84,7 @@ Now let's understand some properties:
 - generate JavaScript files inside `/build` folder
 - include all files inside `/src` folder
 - exclude all files inside `/node_modules` folder
-- the other properties are recommended by typescript and you can check the meaning here: https://www.typescriptlang.org/tsconfig
+- the other properties are recommended by typescript and you can check the meaning [here](https://www.typescriptlang.org/tsconfig). 
 
 The next step is install `ts-node-dev` dependency. It's a tool that compiles your projects with typescript and restarts the project when any file is modified.
 
@@ -95,13 +115,17 @@ The `build` property in `scripts` run the typescript compiler (tsc) and generate
 
 ## ESLint
 
-[ESLint](https://eslint.org/) is a code analysis tool to identify problems and bad practices in JavaScript and TypeScript code.
+ESLint is a code analysis tool to identify problems and bad practices in JavaScript and TypeScript code.
 
 To install this package, run the following command:
 
 ```bash
 npx eslint --init
 ```
+
+The next lines contain a set of questions and answers that reproduce the configuration applied in this repository.
+
+<hr>
 
 **How would you like to use ESLint?**
 
@@ -138,6 +162,8 @@ npx eslint --init
 **Would you like to install them now with npm?**
 
 > Yes
+
+<hr>
 
 As we are using `yarn` remove the `package-lock.json` file that was created by the previous command and run `yarn install` to update the package references.
 
@@ -176,7 +202,7 @@ and some dev dependencies will be added in `package.json` file
 }
 ```
 
-If you are using [VSCode](https://code.visualstudio.com/) is necessary install the [ESLint Plugin](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
+> If you are using [VSCode](https://code.visualstudio.com/) is necessary install the [ESLint Plugin](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint).
 
 Now let's add a script to the `package.json` file to see eslint in action.
 
@@ -230,7 +256,7 @@ Then, in `.eslintrc.json` file, put these lines:
 }
 ```
 
-> For more details see the official repository: [eslint-plugin-prettier](https://github.com/prettier/eslint-plugin-prettier).
+> For more details see the [eslint-plugin-prettier](https://github.com/prettier/eslint-plugin-prettier) repository.
 
 To prevent the prettier and eslint rules from conflicting, it's necessary to install the following plugin:
 
@@ -249,9 +275,9 @@ Then, in `.eslintrc.json` file, put these lines:
 }
 ```
 
-> For more details see the official repository: [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier).
+> For more details see the [eslint-config-prettier](https://github.com/prettier/eslint-config-prettier) repository.
 
-If you are using [VSCode](https://code.visualstudio.com/), you will also need to install the [esbenp.prettier-vscode](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) plugin.
+> If you are using [VSCode](https://code.visualstudio.com/), is necessary install the [Prettier Plugin](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode).
 
 The next step is create a `.prettierrc.json` file inside root folder:
 
@@ -265,9 +291,9 @@ The next step is create a `.prettierrc.json` file inside root folder:
 }
 ```
 
-> Change the settings according to your need. See the [official documentation](https://prettier.io/docs/en/options.html) for more details.
+> Change the settings according to your need. See the [prettier options](https://prettier.io/docs/en/options.html) for more details.
 
-If you are using VSCode, you need to disable the following setting into [`settings.json`](https://code.visualstudio.com/docs/getstarted/settings) file to avoid conflicts with ESLint rules:
+If you are using [VSCode](https://code.visualstudio.com/), you need to disable the following setting into [`settings.json`](https://code.visualstudio.com/docs/getstarted/settings) file to avoid conflicts with ESLint rules:
 
 ```diff
 { 
