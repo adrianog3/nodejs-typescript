@@ -19,6 +19,7 @@
 1. [TypeScript](#typeScript)
 1. [Eslint](#eslint)
 1. [Prettier](#prettier)
+1. [Husky & lint-staged](#husky--lint-staged)
 
 ## How to reproduce this template
 
@@ -300,3 +301,33 @@ If you are using [VSCode](https://code.visualstudio.com/), you need to disable t
 + "typescript.validate.enable": false
 }
 ```
+
+## :dog: Husky & lint-staged
+
+Husky + lint-staged is a perfect match. [Husky](https://github.com/typicode/husky) uses the power of [git hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks) to trigger custom commands and [lint-staged](https://github.com/okonet/lint-staged) allows us to run these commands only in files that are in the git stage area.
+
+Perform the installation with the following command:
+
+```bash
+npx mrm@2 lint-staged
+```
+
+The above command install Husky and create `.husky` folder with pre-commit hook that references lint-staged script created in `package.json` file.
+
+In this case we will make a small adjustment in the `lint-staged` script.
+
+```diff
+{
+  "lint-staged": {
+-   "*.js": "eslint --cache --fix"
++   "*.ts": "eslint --cache --fix --max-warnings=0"
+  }
+}
+```
+
+- By definition, the lint-staged plugin only monitors files that are in the git stage area.
+- The `*.ts` property tells lint-staged to only monitor files ending with `.ts`.
+- The command `eslint --cache --fix --max-warnings=0` will be executed for each file.
+- The `--max-warnings=0` flag defines the maximum number of warnings allowed by eslint. If you exceed the limit, an error will be thrown. 
+
+From now, when performing a commit, any typescript file will be analyzed by eslint. This is awesome :hearts:
