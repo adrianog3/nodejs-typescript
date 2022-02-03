@@ -3,3 +3,9 @@ node_modules
 
 # build
 build
+
+# test
+coverage
+
+# configuration files
+.eslintcache
