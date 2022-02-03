@@ -8,7 +8,8 @@
     "build": "tsc",
     "dev": "ts-node-dev src/index.ts",
     "prepare": "husky install",
-    "test": "jest"
+    "test": "jest",
+    "commit": "cz"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.1.0",
