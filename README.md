@@ -20,6 +20,7 @@
 1. [Eslint](#eslint)
 1. [Prettier](#prettier)
 1. [Husky & lint-staged](#husky--lint-staged)
+1. [Commitlint](#commitlint)
 
 ## How to reproduce this template
 
@@ -422,3 +423,27 @@ If you also want to run Jest after the lint stage, change the package.json file 
 +    ]
 +  }
 }
+```
+
+## Commitlint
+
+The [commitlint](https://github.com/conventional-changelog/commitlint) is tool that checks if your commit messages meet the [conventional commit format](https://conventionalcommits.org/). To install run the command bellow:
+
+```bash
+yarn add @commitlint/config-conventional @commitlint/cli -D
+```
+
+And create a file named as `commitlint.config.js` inside root folder:
+
+```diff
++ module.exports = { extends: ['@commitlint/config-conventional'] }
+```
+Now for the commitlint to be triggered by the husky every commit, run the following command:
+
+```bash
+npx husky add .husky/commit-msg 'npx --no -- commitlint --edit "$1"'
+```
+
+The command above will create a file named as `.husky/commit-msg` into `.husky` folder.
+
+Now non-standard commits will not be allowed :x:
