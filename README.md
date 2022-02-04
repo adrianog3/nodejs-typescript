@@ -21,6 +21,7 @@
 1. [Prettier](#prettier)
 1. [Husky & lint-staged](#husky--lint-staged)
 1. [Commitlint](#commitlint)
+1. [Commitizen](#commitizen)
 
 ## How to reproduce this template
 
@@ -86,7 +87,7 @@ Now let's understand some properties:
 - generate JavaScript files inside `/build` folder
 - include all files inside `/src` folder
 - exclude all files inside `/node_modules` folder
-- the other properties are recommended by typescript and you can check the meaning [here](https://www.typescriptlang.org/tsconfig). 
+- the other properties are recommended by typescript and you can check the meaning [here](https://www.typescriptlang.org/tsconfig).
 
 The next step is install `ts-node-dev` dependency. It's a tool that compiles your projects with typescript and restarts the project when any file is modified.
 
@@ -108,7 +109,7 @@ Add `scripts` property in your `package.json` file.
 Now create the main file `src/index.ts` and fill it with the following content.
 
 ```typescript
-console.log("Hello World!");
+console.log('Hello World!')
 ```
 
 This configuration allows you to run the command `yarn dev` to execute application in development mode.
@@ -298,7 +299,7 @@ The next step is create a `.prettierrc.json` file inside root folder:
 If you are using [VSCode](https://code.visualstudio.com/), you need to disable the following setting into [`settings.json`](https://code.visualstudio.com/docs/getstarted/settings) file to avoid conflicts with ESLint rules:
 
 ```diff
-{ 
+{
 + "typescript.validate.enable": false
 }
 ```
@@ -322,21 +323,27 @@ The next lines contain a set of questions and answers that reproduce the configu
 <hr>
 
 It seems that you already have a jest configuration, do you want to override it?
+
 > yes
 
 Would you like to use Typescript for the configuration file?
+
 > yes
 
 Choose the test environment that will be used for testing
+
 > node
 
 Do you want Jest to add coverage reports?
+
 > yes
 
 Which provider should be used to instrument code for coverage?
+
 > v8
 
 Automatically clear mock calls, instances and results before every test?
+
 > yes
 
 <hr>
@@ -373,7 +380,7 @@ And change `eslintrc.json` file:
 
   "plugins": [
     "@typescript-eslint",
-    "prettier", 
+    "prettier",
 +   "jest"
   ],
 }
@@ -407,7 +414,7 @@ In this case we will make a small adjustment in the `lint-staged` script.
 - By definition, the lint-staged plugin only monitors files that are in the git stage area.
 - The `*.ts` property tells lint-staged to only monitor files ending with `.ts`.
 - The command `eslint --cache --fix --max-warnings=0` will be executed for each file.
-- The `--max-warnings=0` flag defines the maximum number of warnings allowed by eslint. If you exceed the limit, an error will be thrown. 
+- The `--max-warnings=0` flag defines the maximum number of warnings allowed by eslint. If you exceed the limit, an error will be thrown.
 
 From now, when performing a commit, any typescript file will be analyzed by eslint. This is awesome :hearts:
 
@@ -438,6 +445,7 @@ And create a file named as `commitlint.config.js` inside root folder:
 ```diff
 + module.exports = { extends: ['@commitlint/config-conventional'] }
 ```
+
 Now for the commitlint to be triggered by the husky every commit, run the following command:
 
 ```bash
@@ -447,3 +455,48 @@ npx husky add .husky/commit-msg 'npx --no -- commitlint --edit "$1"'
 The command above will create a file named as `.husky/commit-msg` into `.husky` folder.
 
 Now non-standard commits will not be allowed :x:
+
+## Commitizen
+
+[Commitizen](https://github.com/commitizen/cz-cli) is a tool that prompt to you fill mandatory fields during commit. To install run the command bellow:
+
+```bash
+yarn add commitizen -D
+```
+
+Next, initialize your project to use the cz-conventional-changelog adapter:
+
+```bash
+yarn commitizen init cz-conventional-changelog --yarn --dev --exact
+```
+
+The command above will add the following snippet into `package.json` file:
+
+```diff
+{
++  "config": {
++  "commitizen": {
++    "path": "./node_modules/cz-conventional-changelog"
++  }
+}
+```
+
+Now add the following script to `package.json` file:
+
+```diff
+{
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node-dev src/index.ts",
+    "prepare": "husky install",
+    "test": "jest",
++   "commit": "cz"
+  },
+}
+```
+
+To start the iterative commit run `yarn commit` :sunglasses:
+
+<img align="center" alt="eslint output" style="max-width: 680px" src="assets/cz-terminal.png" />
+
+In addition to standardization, commitizen helps you to remember the meaning of each commit type.
