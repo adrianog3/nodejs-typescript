@@ -229,6 +229,35 @@ the result should be similar to this:
 
 <img align="center" alt="eslint output" style="max-width: 680px" src="assets/lint-output.png" />
 
+To avoid import erros
+
+<img align="center" alt="import errors" style="max-width: 680px" src="assets/import-errors.png" />
+
+...apply some configurations in the `eslintrc.json` file:
+
+```diff
+{
+  "rules": {
+    "prettier/prettier": "error",
++    "import/extensions": [
++      "error",
++      "ignorePackages",
++      {
++        "ts": "never"
++      }
++    ]
+   },
++  "settings": {
++    "import/resolver": {
++      "node": {
++        "extensions": [".ts"]
++      }
++    }
++  }
+}
+```
+
+
 ## Prettier
 
 The prettier is a text formatter for javascript and typescript files.
@@ -295,14 +324,6 @@ The next step is create a `.prettierrc.json` file inside root folder:
 ```
 
 > Change the settings according to your need. See the [prettier options](https://prettier.io/docs/en/options.html) for more details.
-
-If you are using [VSCode](https://code.visualstudio.com/), you need to disable the following setting into [`settings.json`](https://code.visualstudio.com/docs/getstarted/settings) file to avoid conflicts with ESLint rules:
-
-```diff
-{
-+ "typescript.validate.enable": false
-}
-```
 
 ## Jest
 
