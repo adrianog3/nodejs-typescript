@@ -302,7 +302,10 @@ Then, in `.eslintrc.json` file, put these lines:
 {
   "extends": [
     "airbnb-base",
-+   "plugin:prettier/recommended"
++   "plugin:prettier/recommended",
++   "eslint:recommended",
++   "plugin:@typescript-eslint/eslint-recommended",
++   "plugin:@typescript-eslint/recommended"
   ]
 }
 ```
@@ -330,7 +333,7 @@ The next step is create a `.prettierrc.json` file inside root folder:
 Jest is a popular JavaScript Testing Framework. To install it, just run the command below:
 
 ```bash
-yarn add jest @types/jest -D
+yarn add jest @types/jest ts-jest -D
 ```
 
 After installing, perform the configuration by running the command below:
@@ -373,6 +376,9 @@ After performing the installation, change the `jest.config.ts` file as shown bel
 
 ```diff
 {
+-  // preset: undefined,
++  preset: 'ts-jest',
+
 -  // testMatch: [
 -  //   "**/__tests__/**/*.[jt]s?(x)",
 -  //   "**/?(*.)+(spec|test).[tj]s?(x)"
@@ -447,7 +453,7 @@ If you also want to run Jest after the lint stage, change the package.json file 
 -    "*.ts": "eslint --cache --fix --max-warnings=0"
 +    "*.ts": [
 +      "eslint --cache --fix --max-warnings=0",
-+      "jest --bail --findRelatedTests"
++      "jest --bail --findRelatedTests --passWithNoTests"
 +    ]
 +  }
 }
